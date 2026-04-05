@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="Contract Law Learning App - Master Remedies for Breach, Damages, and more">
+    <title>Contract Law Academy</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%232563eb' width='192' height='192'/><text x='50%' y='50%' font-size='100' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>CL</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%232563eb' width='180' height='180' rx='40'/><text x='50%' y='50%' font-size='90' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>CL</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            max-width: 100%;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .header-subtitle {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            padding: 1rem;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Lessons Grid */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .lesson-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .lesson-card.completed {
+            opacity: 0.8;
+        }
+
+        .lesson-card.completed::before {
+            content: '✓';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--success);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .lesson-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-duration {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            transition: width 0.3s ease;
+        }
+
+        /* Player Section */
+        .player-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+        }
+
+        .player-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .player-metadata {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        /* Guidelines Section */
+        .guidelines-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .guideline-item {
+            padding: 1rem;
+            background: var(--bg);
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .guideline-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .guideline-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Captions/Notes */
+        .captions-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .caption-block {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .caption-time {
+            font-weight: bold;
+            color: var(--secondary);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .caption-text {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        /* Statistics */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.2rem;
+            }
+
+            .main {
+                padding: 0.75rem;
+            }
+
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .player-container {
+                padding: 1.5rem;
+            }
+
+            .tabs {
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .tab-btn {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .badge-warning {
+            background: var(--warning);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            padding: 2rem 1rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Install Prompt */
+        .install-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .install-banner.show {
+            display: flex;
+        }
+
+        .install-banner-text {
+            flex: 1;
+        }
+
+        .install-banner-title {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .install-banner-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <div class="header-title">📚 Contract Law Academy</div>
+                    <div class="header-subtitle">Master the fundamentals of contract law</div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-icon" id="installBtn" title="Install App">⬇️</button>
+                    <button class="btn-icon" id="settingsBtn" title="Settings">⚙️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main">
+            <!-- Install Banner -->
+            <div class="install-banner" id="installBanner">
+                <div class="install-banner-text">
+                    <div class="install-banner-title">Install App</div>
+                    <div class="install-banner-desc">Download to your home screen for easy access</div>
+                </div>
+                <button class="btn btn-secondary" id="installBannerBtn">Install</button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="lessons">📖 Lessons</button>
+                <button class="tab-btn" data-tab="guidelines">📋 Guidelines</button>
+                <button class="tab-btn" data-tab="progress">📊 Progress</button>
+                <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
+            </div>
+
+            <!-- Lessons Tab -->
+            <div class="tab-content active" id="lessons-tab">
+                <h2 class="section-title">📖 Contract Law Lessons</h2>
+                <div class="lessons-grid" id="lessonsGrid"></div>
+            </div>
+
+            <!-- Guidelines Tab -->
+            <div class="tab-content" id="guidelines-tab">
+                <div class="guidelines-container">
+                    <h2 class="section-title">📋 Learning Guidelines</h2>
+                    
+                    <div class="guideline-item">
+                        <div class="guideline-title">🎯 Course Objectives</div>
+                        <div class="guideline-text">
+                            This comprehensive course covers the fundamentals of Contract Law with special focus on Remedies for Breach and Damages. 
+                            By completing this course, you will understand:<br>
+                            • The essential elements of contract formation<br>
+                            • Terms and conditions in contracts<br>
+                            • Remedies available for breach of contract<br>
+                            • Calculation and award of damages<br>
+                            • Defenses against breach claims
+                        </div>
+                    </div>
+
+                    <div class="guideline-item">
+                        <div class="guideline-title">⏱️ How to Use This App</div>
+                        <div class="guideline-text">
+                            1. <strong>Select a Lesson:</strong> Click on any lesson card to start learning<br>
+                            2. <strong>Listen Actively:</strong> Use the audio player to listen to the complete lesson<br>
+                            3. <strong>Review Captions:</strong> Read along with the provided captions and notes<br>
+                            4. <strong>Mark as Complete:</strong> Click the "Mark as Complete" button when finished<br>
+                            5. <strong>Track Progress:</strong> Monitor your learning progress in the Progress tab
+                        </div>
+                    </div>
+
+                    <div class="guideline-item">
+                        <div class="guideline-title">💡 Key Concepts</div>
+                        <div class="guideline-text">
+                            <strong>Contract Formation:</strong> Agreement, consideration, intention to create legal relations<br>
+                            <strong>Terms of Contract:</strong> Conditions, warranties, innominate terms<br>
+                            <strong>Breach of Contract:</strong> Failure to perform contractual obligations<br>
+                            <strong>Damages:</strong> Monetary compensation for breach<br>
+                            <strong>Remedies:</strong> Legal solutions available to the injured party
+                        </div>
+                    </div>
+
+                    <div class="guideline-item">
+                        <div class="guideline-title">📚 Study Tips</div>
+                        <div class="guideline-text">
+                            • Listen to lessons in a quiet environment<br>
+                            • Take notes while listening<br>
+                            • Review captions multiple times<br>
+                            • Practice applying concepts to real scenarios<br>
+                            • Complete all lessons before assessment<br>
+                            • Revisit difficult topics as needed
+                        </div>
+                    </div>
+
+                    <div class="guideline-item">
+                        <div class="guideline-title">🌍 Malawian Law Context</div>
+                        <div class="guideline-text">
+                            This course includes specific references to Malawian legal framework and how contract law principles apply in the Malawian context. 
+                            Understanding these context-specific applications is crucial for legal practitioners in Malawi.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Tab -->
+            <div class="tab-content" id="progress-tab">
+                <h2 class="section-title">📊 Your Learning Progress</h2>
+                <div class="stats-grid" id="statsGrid"></div>
+                <div class="guidelines-container" id="progressDetails"></div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings-tab">
+                <div class="guidelines-container">
+                    <h2 class="section-title">⚙️ Settings & Preferences</h2>
+                    
+                    <div class="guideline-item">
+                        <div class="guideline-title">🌙 Theme</div>
+                        <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                            <button class="btn btn-secondary" id="themeDark">Dark Mode</button>
+                            <button class="btn btn-secondary" id="themeLight">Light Mode</button>
+                        </div>
+                    </div>
+
+                    <div class="guideline-item">
+                        <div class="guideline-title">🔊 Audio Settings</div>
+                        <div style="margin-top: 1rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <input type="checkbox" id="autoPlayNext"> Auto-play next lesson
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" id="showCaptions" checked> Show captions
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="guideline-item">
+                        <div class="guideline-title">📱 App Information</div>
+                        <div class="guideline-text">
+                            <strong>Version:</strong> 1.0.0<br>
+                            <strong>Last Updated:</strong> April 2026<br>
+                            <strong>Total Lessons:</strong> 16<br>
+                            <strong>Course Duration:</strong> ~16-20 hours<br>
+                            <strong>Language:</strong> English
+                        </div>
+                    </div>
+
+                    <div class="guideline-item">
+                        <div class="guideline-title">💾 Data Management</div>
+                        <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button class="btn btn-secondary" id="exportData">Export Progress</button>
+                            <button class="btn btn-secondary" id="resetData">Reset All</button>
+                        </div>
+                    </div>
+
+                    <div class="guideline-item">
+                        <div class="guideline-title">ℹ️ About</div>
+                        <div class="guideline-text">
+                            <strong>Contract Law Academy</strong><br>
+                            A comprehensive learning platform for contract law fundamentals with special focus on remedies for breach and damages.<br><br>
+                            This app is designed to provide accessible legal education with high-quality audio lessons, detailed captions, and practical guidelines.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#about">About</a>
+                <a href="#privacy">Privacy</a>
+                <a href="#terms">Terms</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div>© 2026 Contract Law Academy. All rights reserved.</div>
+        </div>
+    </div>
+
+    <!-- Player Modal -->
+    <div class="modal" id="playerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Lesson Title</div>
+                <button class="btn-close" id="closeModal">&times;</button>
+            </div>
+            <div class="player-container" id="playerContent"></div>
+        </div>
+    </div>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(e => console.log('SW registration failed:', e));
+        }
+    </script>
+
+    <!-- App Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
